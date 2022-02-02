@@ -8,13 +8,14 @@
 import Foundation
 
 public struct PresenceData: Codable {
-    public let state, details: String?
-    public let timestamps: Timestamps?
-    public let assets: Assets?
-    public let party: Party?
-    public let secrets: Secrets?
-    public let instance: Bool?
-    public let buttons: [Button]?
+    public var state: String? = nil
+    public var details: String? = nil
+    public var timestamps: Timestamps? = nil
+    public var assets: Assets? = nil
+    public var party: Party? = nil
+    public var secrets: Secrets? = nil
+    public var instance: Bool? = nil
+    public var buttons: [Button]? = nil
     
     public struct Assets: Codable {
         public let largeImage, largeText, smallImage, smallText: String?
@@ -37,7 +38,7 @@ public struct PresenceData: Codable {
     }
 
     public struct Timestamps: Codable {
-        let start, end: Int64?
+        let start, end: Int?
     }
     
     public struct Button: Codable {

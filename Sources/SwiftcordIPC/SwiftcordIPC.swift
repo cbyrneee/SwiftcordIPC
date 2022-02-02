@@ -38,7 +38,17 @@ public class SwiftcordIPC : SocketConnectionDelegate {
         let _ = connection?.channel?.close()
     }
     
-    // TODO: We need to do something better than this
+    public func setPresence(_ data: PresenceData) {
+        connection?.channel?.writeAndFlush(NIOAny(SetActivityPacket(presence: data)), promise: nil)
+    }
+    
+    public func setPresence(_ build: (inout PresenceData) -> ()) {
+        var data = PresenceData()
+        build(&data)
+        
+        setPresence(data)
+    }
+    
     public func setPresence(
         details: String? = nil,
         state: String? = nil,
@@ -54,7 +64,7 @@ public class SwiftcordIPC : SocketConnectionDelegate {
         let presence = PresenceData(
             state: state,
             details: details,
-            timestamps: start != nil && end != nil ? PresenceData.Timestamps(start: Int64(start!), end: Int64(end!)) : nil,
+            timestamps: start != nil && end != nil ? PresenceData.Timestamps(start: start!, end: end!) : nil,
             assets: PresenceData.Assets(largeImage: largeImage, largeText: largeImageText, smallImage: smallImage, smallText: smallImageText),
             party: nil,
             secrets: nil,
@@ -62,7 +72,7 @@ public class SwiftcordIPC : SocketConnectionDelegate {
             buttons: buttonText != nil && buttonUrl != nil ? [PresenceData.Button(label: buttonText, url: buttonUrl)] : nil
         )
         
-        connection?.channel?.writeAndFlush(NIOAny(SetActivityPacket(presence: presence)), promise: nil)
+        setPresence(presence)
     }
     
     /// Gets the IPC file to connect with the Discord IPC server
