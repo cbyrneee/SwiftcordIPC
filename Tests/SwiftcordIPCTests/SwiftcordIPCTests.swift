@@ -3,9 +3,12 @@ import XCTest
 
 final class SwiftcordIPCTests: XCTestCase {
     func testExample() throws {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct
-        // results.
-        XCTAssertEqual(SwiftcordIPC().text, "Hello, World!")
+        let ipc = SwiftcordIPC(id: "937029972139327558")
+        ipc.onReady = { data in
+            print("Ready! User: \(data.user.username)#\(data.user.discriminator)")
+            ipc.setPresence(details: "Hello", state: "World", largeImage: "myImage", largeImageText: "o/", buttonText: "Click me!", buttonUrl: "https://cbyrne.dev")
+        }
+        
+        try ipc.connectAndBlock()
     }
 }
