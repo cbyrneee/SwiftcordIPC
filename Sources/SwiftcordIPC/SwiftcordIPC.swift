@@ -42,6 +42,10 @@ public class SwiftcordIPC : SocketConnectionDelegate {
         connection?.channel?.writeAndFlush(NIOAny(SetActivityPacket(presence: data)), promise: nil)
     }
     
+    public func clearPresence() {
+        connection?.channel?.writeAndFlush(NIOAny(SetActivityPacket(presence: nil)), promise: nil)
+    }
+    
     public func setPresence(_ build: (inout PresenceData) -> ()) {
         var data = PresenceData()
         build(&data)

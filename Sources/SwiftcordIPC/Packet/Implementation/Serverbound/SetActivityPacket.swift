@@ -13,14 +13,20 @@ public struct SetActivityPacket : Packet {
     public var presence: PresenceData? = nil
     
     public func encode() throws -> [AnyHashable:Any] {
-        let pid = getpid()
+        var args: [AnyHashable:Any] = [
+            "pid": getpid(),
+        ]
+        
+        if let presence = presence {
+            args["activity"] = presence.dictionary
+        } else {
+            args["activity"] = nil
+        }
+        
         return [
             "cmd": "SET_ACTIVITY",
-            "args": [
-                "pid": pid,
-                "activity": presence?.dictionary ?? [:]
-            ],
-            "nonce": "nonce"
+            "args": args,
+            "nonce": "0"
         ]
     }
 }
