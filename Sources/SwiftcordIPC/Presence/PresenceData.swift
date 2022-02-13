@@ -29,16 +29,16 @@ public struct PresenceData: Codable {
     }
 
     public struct Party: Codable {
-        let id: Int?
-        let size: [Int]?
+        public let id: String?
+        public let size: [Int]?
     }
 
     public struct Secrets: Codable {
-        let join, spectate, match: String?
+        public let join, spectate, match: String?
     }
 
     public struct Timestamps: Codable {
-        let start, end: Int?
+        public let start, end: Int?
     }
     
     public struct Button: Codable {
